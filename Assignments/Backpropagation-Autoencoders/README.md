@@ -1,7 +1,6 @@
 # Backpropagation-Autoencoders: A Comprehensive Investigation for Neural Network Modeling Lab PSYC 489
 ## University of Illinois Urbana-Champaign
 ### Author: Eric Soderquist
-#### Founder & Lead Machine Learning Engineer / Data Scientist at Speakease
 
 ---
 
