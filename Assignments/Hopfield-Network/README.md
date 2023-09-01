@@ -39,7 +39,7 @@ The Simple Hopfield Network has been a subject of interest in both the fields of
 
 ## File Structure
 
-- `Simple_Hopfield_Network_Updated_Further.py`: The Python script containing the optimized Hopfield Network implementation.
+- `Hopfield-Network.py`: The Python script containing the optimized Hopfield Network implementation.
     - Methods: `__init__`, `train`, `recall`
 
 ---
@@ -57,7 +57,7 @@ The Simple Hopfield Network has been a subject of interest in both the fields of
 To run the code, execute the following command:
 
 ```bash
-python Simple_Hopfield_Network_Updated_Further.py
+python Hopfield-Network.py
 ```
 
 ---
