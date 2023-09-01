@@ -108,6 +108,9 @@ class HopfieldNet:
         self.weights = np.zeros((num_units, num_units))
         
     def train(self, patterns):
+        # Validate input patterns
+        if not isinstance(patterns, np.ndarray):
+            raise TypeError('Patterns must be a NumPy array.')
         for pattern in patterns:
             self.weights += np.outer(pattern, pattern)
         np.fill_diagonal(self.weights, 0)
@@ -322,6 +325,9 @@ class HopfieldNetwork:
         self.weights = np.zeros((num_nodes, num_nodes))
         
     def train(self, patterns):
+        # Validate input patterns
+        if not isinstance(patterns, np.ndarray):
+            raise TypeError('Patterns must be a NumPy array.')
         for pattern in patterns:
             self.weights += np.outer(pattern, pattern)
         self.weights /= len(patterns)
@@ -339,6 +345,9 @@ class HopfieldNetwork:
         self.weights = np.zeros((num_nodes, num_nodes))
         
     def train(self, patterns):
+        # Validate input patterns
+        if not isinstance(patterns, np.ndarray):
+            raise TypeError('Patterns must be a NumPy array.')
         for pattern in patterns:
             self.weights += np.outer(pattern, pattern)
         self.weights /= len(patterns)
