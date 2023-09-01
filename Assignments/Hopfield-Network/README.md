@@ -43,7 +43,7 @@ A Hopfield Network is a recurrent artificial neural network serving as an associ
 
 ## File Structure
 
-- `Simple_Hopfield_Network_Updated_Further.py`: This Python script includes the further optimized and reviewed implementation of a Simple Hopfield Network.
+- `Hopfield-Network.py`: This Python script includes the implementation of a Simple Hopfield Network.
     - Methods: `__init__`, `train`, `recall`
 
 ---
@@ -61,7 +61,7 @@ A Hopfield Network is a recurrent artificial neural network serving as an associ
 To run the Simple Hopfield Network script:
 
 ```bash
-python Simple_Hopfield_Network_Updated_Further.py
+python Hopfield-Network.py
 ```
 
 ---
