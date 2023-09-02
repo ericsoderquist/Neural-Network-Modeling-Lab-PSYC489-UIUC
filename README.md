@@ -91,8 +91,11 @@ Navigate to the folder `Backpropagation-Autoencoders` and execute the Python scr
 
 ### Hopfield-Network
 
-Located in the folder `Hopfield-Network`.
+For a practical implementation, refer to the Python script within the `Hopfield-Network` folder:
 
+- [Hopfield Network](/Assignments/Hopfield-Network/Hopfield-Network.py)
+
+![Hopfield Network Architecture](/hopfield_network_architecture.png)
 
 #### Theoretical Framework: Hopfield Networks
 
@@ -121,13 +124,9 @@ Hopfield networks have been utilized in various scientific explorations:
 ##### Advanced Concepts
 
 - **Energy Landscapes**: The concept of energy landscapes is central to understanding Hopfield networks. The network moves toward stable states, which are local minima in the energy landscape.
-For a practical implementation, refer to the Python script within the `Hopfield-Network` folder:
-
-- [Hopfield Network](/Assignments/Hopfield-Network/Hopfield-Network.py)
 
 - **Capacity**: The number of patterns that a Hopfield network can store is approximately 0.15 times the number of neurons, beyond which the network starts to produce spurious patterns.
 
-![Hopfield Network Architecture](/hopfield_network_architecture.png)
 
 It's crucial to note that while Hopfield networks are good at certain tasks, they are not as versatile as other neural network architectures like feedforward and convolutional neural networks.
 
