@@ -68,8 +68,8 @@ Autoencoders have broad applications in various domains:
 
 For a practical implementation, refer to the Python scripts within the `Backpropagation-Autoencoders` folder:
 
-- [One Layer Autoencoder](./Backpropagation-Autoencoders/One_Layer_Backprop_Autoencoder_NN.py)
-- [Two Layer Autoencoder](./Backpropagation-Autoencoders/TwoLayer_Backprop_Autoencoder_NN.py)
+- [One Layer Autoencoder](./Assignments/Backpropagation-Autoencoders/One_Layer_Backprop_Autoencoder_NN.py)
+- [Two Layer Autoencoder](./Assignments/Backpropagation-Autoencoders/TwoLayer_Backprop_Autoencoder_NN.py)
   
 ![Autoencoder Architecture](./autoencoder_architecture.png)It is worth noting that several variants of autoencoders exist, such as sparse autoencoders, denoising autoencoders, and variational autoencoders, each with their unique properties and applications.
 
@@ -123,11 +123,11 @@ Hopfield networks have been utilized in various scientific explorations:
 - **Energy Landscapes**: The concept of energy landscapes is central to understanding Hopfield networks. The network moves toward stable states, which are local minima in the energy landscape.
 For a practical implementation, refer to the Python script within the `Hopfield-Network` folder:
 
-- [Hopfield Network](./Hopfield-Network/Hopfield-Network.py)
+- [Hopfield Network](/Assignments/Hopfield-Network/Hopfield-Network.py)
 
 - **Capacity**: The number of patterns that a Hopfield network can store is approximately 0.15 times the number of neurons, beyond which the network starts to produce spurious patterns.
 
-![Hopfield Network Architecture](./hopfield_network_architecture.png)
+![Hopfield Network Architecture](/hopfield_network_architecture.png)
 
 It's crucial to note that while Hopfield networks are good at certain tasks, they are not as versatile as other neural network architectures like feedforward and convolutional neural networks.
 
