@@ -12,7 +12,6 @@ For those new to the concept, neural networks are a class of machine learning mo
 ## Technologies Used
 
 - Python
-- TensorFlow
 - NumPy
 - Matplotlib
 
@@ -28,28 +27,17 @@ pip install -r requirements.txt
 
 ### Backpropagation-Autoencoders
 
+Located in the folder `Assignments/Backpropagation-Autoencoders`.
+
 #### Theoretical Background
 
 Autoencoders are unsupervised learning algorithms aimed at learning efficient codings or representations of input data. They are neural networks trained to reconstruct their input data as closely as possible. This training paradigm is unsupervised: the network is trained to reconstruct its inputs without requiring any labeled data.
 
 ##### Mathematical Representation
 
-The basic Autoencoder architecture can be mathematically represented as follows:
+The basic Autoencoder architecture can be mathematically represented as follows: `F(G(x)) ≈ x`
 
-\[
-F(G(x)) pprox x
-\]
-
-Here, \( F \) is the decoding function and \( G \) is the encoding function.
-
-##### Further Reading
-
-- [Efficient Learning of Sparse Representations with an Energy-Based Model](https://www.jmlr.org/papers/volume11/vincent10a/vincent10a.pdf)
-- [Auto-Encoding Variational Bayes](https://arxiv.org/abs/1312.6114)
-
-##### Visual Aid
-
-![Autoencoder Architecture](/autoencoder_architecture.png)
+Here, `F` is the decoding function and `G` is the encoding function.
 
 #### Methodology
 
@@ -57,13 +45,14 @@ The assignment involves creating an autoencoder model and training it using back
 
 #### How to Run
 
-Navigate to the `Backpropagation-Autoencoders` directory and run the following command:
+Navigate to the `Assignments/Backpropagation-Autoencoders` directory and run the Python scripts:
 
-```bash
-python main.py
-```
+- `One_Layer_Backprop_Autoencoder_NN.py`
+- `TwoLayer_Backprop_Autoencoder_NN.py`
 
 ### Hopfield-Network
+
+Located in the folder `Assignments/Hopfield-Network`.
 
 #### Theoretical Background
 
@@ -71,22 +60,9 @@ Hopfield networks are a type of recurrent neural network used to store one or mo
 
 ##### Mathematical Representation
 
-The Hopfield network can be described by its energy function \( E \):
+The Hopfield network can be described by its energy function `E`: `E = -∑(i,j) w_ij * x_i * x_j`
 
-\[
-E = -\sum_{i,j} w_{ij} x_i x_j
-\]
-
-Here, \( w_{ij} \) are the weights and \( x_i \) and \( x_j \) are the states of neurons \( i \) and \( j \) respectively.
-
-##### Further Reading
-
-- [Neural Networks and Physical Systems with Emergent Collective Computational Abilities](https://www.pnas.org/content/79/8/2554)
-- [Hopfield Networks: A Short Introduction](https://doi.org/10.3389/fncom.2020.00021)
-
-##### Visual Aid
-
-![Hopfield Network Architecture](/hopfield_network_architecture.png)
+Here, `w_ij` are the weights and `x_i` and `x_j` are the states of neurons `i` and `j` respectively.
 
 #### Methodology
 
@@ -94,15 +70,13 @@ The assignment involves implementing a Hopfield network and storing multiple pat
 
 #### How to Run
 
-Navigate to the `Hopfield-Network` directory and run the following command:
+Navigate to the `Assignments/Hopfield-Network` directory and run the Python script:
 
-```bash
-python main.py
-```
+- `Hopfield-Network.py`
 
 ## Authors
 
-- [Eric Soderquist](mailto:eys3@illinios.edu)
+- [Eric Soderquist](mailto:eys3@illinois.edu)
 
 ## License
 
