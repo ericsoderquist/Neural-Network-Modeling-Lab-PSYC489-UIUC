@@ -49,7 +49,7 @@ Here, \( F \) is the decoding function and \( G \) is the encoding function.
 
 ##### Visual Aid
 
-![Autoencoder Architecture](autoencoder_architecture.png)
+![Autoencoder Architecture](/autoencoder_architecture.png)
 
 #### Methodology
 
@@ -86,7 +86,7 @@ Here, \( w_{ij} \) are the weights and \( x_i \) and \( x_j \) are the states of
 
 ##### Visual Aid
 
-![Hopfield Network Architecture](hopfield_network_architecture.png)
+![Hopfield Network Architecture](/hopfield_network_architecture.png)
 
 #### Methodology
 
@@ -102,7 +102,7 @@ python main.py
 
 ## Authors
 
-- [Your Name](mailto:youremail@university.edu)
+- [Eric Soderquist](mailto:eys3@illinios.edu)
 
 ## License
 
