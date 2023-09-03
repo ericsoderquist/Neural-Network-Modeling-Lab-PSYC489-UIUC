@@ -50,12 +50,12 @@ The primary aim is to minimize the difference between the input and the reconstr
 
 ##### Mathematical Formulation
 
-The encoder and decoder functions can be represented as `F` and `G` respectively, with `F(G(x)) \approx x`. Here, `F` and `G` are usually affine transformations followed by non-linearities.
+The encoder and decoder functions can be represented as $F$ and $G$ respectively, with $F(G(x)) \approx x$. Here, $F$ and $G$ are usually affine transformations followed by non-linearities.
 
-``` F(x) = \sigma(W_f \cdot x + b_f) ```
-``` G(y) = \sigma(W_g \cdot y + b_g) ```
+$F(x) = \sigma(W_f \cdot x + b_f)$
+$G(y) = \sigma(W_g \cdot y + b_g)$
 
-where ` \sigma ` is a non-linear activation function, ` W_f, W_g ` are weight matrices and ` b_f, b_g ` are bias vectors.
+where $\sigma$ is a non-linear activation function, $W_f, W_g$ are weight matrices and $b_f$, $b_g$ are bias vectors.
 
 ##### Research Implications
 
@@ -78,9 +78,9 @@ Autoencoders are neural networks designed to perform data encoding in an unsuper
 
 ##### Mathematical Representation
 
-The basic Autoencoder architecture can be mathematically represented as follows: ``F(G(x)) ≈ x``
+The basic Autoencoder architecture can be mathematically represented as follows: $F(G(x)) ≈ x$
 
-Here, `F` is the decoding function and `G` is the encoding function.
+Here, $F$ is the decoding function and $G$ is the encoding function.
 
 #### Running the Code
 
@@ -107,11 +107,11 @@ A Hopfield network consists of a single layer of neurons connected to each other
 
 ##### Mathematical Formulation
 
-The dynamics of a Hopfield network are governed by an energy function ` E `, defined as:
+The dynamics of a Hopfield network are governed by an energy function $E$, defined as:
 
-``` E = -\sum_{i,j} w_{ij} \cdot x_i \cdot x_j ```
+$E = -\sum_{i,j} w_{ij} \cdot x_i \cdot x_j$
 
-where ` w_{ij} ` is the weight between neuron ` i ` and ` j `, and ` x_i ` and ` x_j ` are the states of neurons ` i ` and ` j ` respectively. The network aims to minimize this energy function.
+where $w_{ij}$ is the weight between neuron $i$ and $j$, and $x_i$ and $x_j$ are the states of neurons $i$ and $j$ respectively. The network aims to minimize this energy function.
 
 ##### Research Implications
 
@@ -135,9 +135,9 @@ Hopfield networks serve as models for associative memory. They are designed to c
 
 ##### Mathematical Representation
 
-The Hopfield network can be described by its energy function `E`: ``E = -∑(i,j) w_ij * x_i * x_j``
+The Hopfield network can be described by its energy function $E$: $E = -∑(i,j) w_ij * x_i * x_j$
 
-Here, `w_ij` are the weights and `x_i` and `x_j` are the states of neurons `i` and `j` respectively.
+Here, $w_ij$ are the weights and $x_i$ and $x_j$ are the states of neurons $i$ and $j$ respectively.
 
 #### Running the Code
 
