@@ -76,7 +76,7 @@ Special thanks to the University of Illinois Urbana-Champaign and the Brain and 
 
 ### License
 
-MIT License. See [LICENSE](LICENSE) file for details.
+MIT License.
 
 ---
 
