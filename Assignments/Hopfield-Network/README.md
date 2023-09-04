@@ -60,7 +60,7 @@ The `HopfieldNetwork` class serves as the primary interface for interacting with
 
 ### Usage
 
-Please refer to the [Hopfield-Network.py](./Assignments/Hopfield-Network/Hopfield-Network.py) script for example usage. Training and state update methods are included in the class definition, allowing for straightforward use in research or applications.
+Please refer to the [Hopfield-Network.py](./Hopfield-Network.py) script for example usage. Training and state update methods are included in the class definition, allowing for straightforward use in research or applications.
 
 ### Performance Metrics
 
