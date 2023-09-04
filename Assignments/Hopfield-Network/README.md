@@ -1,87 +1,82 @@
-# Simple Hopfield Network: A Comprehensive Investigation for Neural Network Modeling Lab PSYC 489
-## University of Illinois Urbana-Champaign
-### Author: Eric Soderquist
+# Hopfield Network: An Advanced Framework for Associative Memory
+### University of Illinois Urbana-Champaign
+#### Author: Eric Soderquist
+#### Project Repository: [GitHub](https://github.com/ericsoderquist/Neural-Network-Modeling-Lab-PSYC489-UIUC/tree/main/Assignments/Hopfield-Network)
 
 ---
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
-2. [Motivation](#motivation)
-3. [Prerequisites](#prerequisites)
-4. [File Structure](#file-structure)
-5. [Methods Overview](#methods-overview)
-6. [Usage](#usage)
-7. [Theoretical Background](#theoretical-background)
+2. [Theoretical Background](#theoretical-background)
+3. [Design Decisions](#design-decisions)
+4. [Prerequisites](#prerequisites)
+5. [File Structure](#file-structure)
+6. [Implementation Overview](#implementation-overview)
+7. [Usage](#usage)
 8. [Performance Metrics](#performance-metrics)
 9. [Contributions](#contributions)
-10. [License](#license)
+10. [Acknowledgments](#acknowledgments)
+11. [License](#license)
 
 ---
 
-## Introduction
+### Introduction
 
-This repository contains a rigorously developed and optimized implementation of a Simple Hopfield Network. This project aligns with the academic goals of the Neural Network Modeling Lab course (PSYC 489) at the University of Illinois Urbana-Champaign but extends beyond the coursework to explore best practices in machine learning and software engineering.
+The Hopfield Network project aims to implement an advanced framework for associative memory using a Hopfield network model. The model serves as a powerful tool for the exploration and understanding of memory retrieval in both artificial and biological neural networks. This repository houses the Python codebase and relevant documentation, providing a comprehensive resource for scholars, engineers, and anyone interested in neural networks and associative memory.
 
----
+### Theoretical Background
 
-## Motivation
+The Hopfield Network is a recurrent neural network architecture named after John Hopfield, who introduced it in 1982. It operates under the principles of symmetrically weighted connections and energy minimization. Unlike feedforward neural networks, the Hopfield network features recurrent connections, enabling it to function as an associative memory system. This repository's implementation adheres to these foundational principles, incorporating a robust mathematical model to simulate the network's dynamics accurately.
 
-The Simple Hopfield Network has been a subject of interest in both the fields of psychology and computer science due to its applications in associative memory and optimization problems. This implementation adheres to the highest standards of academic rigor and software engineering.
+### Design Decisions
 
----
+The Python implementation uses a class-based structure to encapsulate the functionality of the Hopfield Network. The key attributes and methods in the class are as follows:
 
-## Prerequisites
+- `n_units`: Represents the number of neurons in the network.
+- `threshold`: The activation threshold.
+- `weights`: A NumPy ndarray storing the synaptic weights.
+- `train(patterns)`: A method to train the network with a set of patterns.
+- `update(pattern, async_update=True)`: Updates the network state, allowing for both synchronous and asynchronous updates.
+- `energy(pattern)`: Calculates the energy of the current network state.
 
-- Python 3.8+
+The implementation allows for modular extension and easy integration with other machine learning frameworks.
+
+### Prerequisites
+
+- Python 3.x
 - NumPy
+- Matplotlib (for visualization)
+
+### File Structure
+
+- `Hopfield-Network.py`: Python script containing the Hopfield Network class implementation.
+- `README.md`: This document.
+- `data/`: Directory containing sample patterns for training and testing.
+
+### Implementation Overview
+
+The `HopfieldNetwork` class serves as the primary interface for interacting with the network. The code is written in Python and adheres to the PEP 8 style guide. The mathematical model underpinning the network adheres to the original equations proposed by John Hopfield, ensuring accurate simulations.
+
+### Usage
+
+Please refer to the [Hopfield-Network.py](./Assignments/Hopfield-Network/Hopfield-Network.py) script for example usage. Training and state update methods are included in the class definition, allowing for straightforward use in research or applications.
+
+### Performance Metrics
+
+The performance of the Hopfield Network can be evaluated using metrics such as recall accuracy, stability, and energy landscape analysis. Further metrics and evaluation techniques are planned for future releases.
+
+### Contributions
+
+Contributions are welcome! Please read the contributing guidelines and code of conduct before submitting a pull request.
+
+### Acknowledgments
+
+Special thanks to the University of Illinois Urbana-Champaign and the Brain and Cognitive Sciences Department for their support and resources.
+
+### License
+
+MIT License. See [LICENSE](LICENSE) file for details.
 
 ---
-
-## File Structure
-
-- `Hopfield-Network.py`: The Python script containing the optimized Hopfield Network implementation.
-    - Methods: `__init__`, `train`, `recall`
-
----
-
-## Methods Overview
-
-- `__init__`: Initializes the Hopfield Network with error handling for input validation.
-- `train`: Trains the network on a given set of patterns, incorporating input validation and error handling.
-- `recall`: Recalls stored patterns based on partial inputs. Input validation and error handling are also included.
-
----
-
-## Usage
-
-To run the code, execute the following command:
-
-```bash
-python Hopfield-Network.py
-```
-
----
-
-## Theoretical Background
-
-The Hopfield Network serves as an associative memory system with binary threshold nodes. The network is trained using the Hebbian learning rule and can recall stored patterns when provided with partial patterns.
-
----
-
-## Performance Metrics
-
-- Hamming Distance: Measures the difference between the recalled pattern and the original pattern.
-- Recall Success Rate: The proportion of successfully recalled patterns over a set of trials.
-
----
-
-## Contributions
-
-This project was solely developed by Eric Soderquist, leveraging a deep understanding of machine learning algorithms and software engineering principles.
-
----
-
-## License
-
-This project is licensed under the MIT License. For more details, please see the [LICENSE](LICENSE.md) file.
 
