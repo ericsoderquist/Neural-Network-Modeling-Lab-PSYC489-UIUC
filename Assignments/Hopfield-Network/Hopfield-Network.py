@@ -1,361 +1,331 @@
 """
-Implementation of a Hopfield Network.
-Author: Eric Soderquist
-Class: PSYC 489: Neural Network Modeling Lab
+This module contains a HopfieldNetwork class that represents a Hopfield network. The class has the following attributes:
+- n_units (int): the number of units in the network
+- threshold (float): the threshold for activation
+- weights (numpy.ndarray): the weights of the network
+
+The class has the following methods:
+- train(patterns): trains the network with the given patterns
+- update(pattern, async_update=True): updates the network with the given pattern
+- energy(pattern): calculates the energy of the given pattern
+
+The module also contains the following functions:
+- generate_test_patterns(patterns, probability): generates test patterns by flipping bits in the input patterns with a given probability.
+- hamming_distance(pattern1, pattern2): calculates the hamming distance between two patterns.
+- run_simulation(hopfield_network, patterns, test_patterns, max_iterations=100): runs a simulation of the Hopfield network with the given patterns and test patterns.
+- generate_random_patterns(n_patterns, n_units): generates random patterns with the given number of patterns and units.
+- generate_related_patterns(base_pattern, n_patterns, probability): generates related patterns based on a base pattern with the given number of patterns and probability.
 """
 import numpy as np
+import random
 
 class HopfieldNetwork:
     """
-    A class representing a Hopfield Network.
+    A class representing a Hopfield network.
+
+    Attributes:
+    - n_units (int): the number of units in the network
+    - threshold (float): the threshold for activation
+    - weights (numpy.ndarray): the weights of the network
+
+    Methods:
+    - train(patterns): trains the network with the given patterns
+    - update(pattern, async_update=True): updates the network with the given pattern
+    - energy(pattern): calculates the energy of the given pattern
     """
-    def __init__(self, num_units: int):
+    def __init__(self, n_units, threshold=0):
         """
-        Initialize the Hopfield Network.
-        
+        Initializes a new instance of the HopfieldNetwork class.
+
         Args:
-            num_units (int): The number of units in the network.
+        - n_units (int): the number of units in the network
+        - threshold (float): the threshold for activation
         """
-        self.num_units = num_units
-        self.weights = np.zeros((num_units, num_units))
-                    new_state[i] = state[i]
+        self.n_units = n_units
+        self.threshold = threshold
+        self.weights = np.zeros((n_units, n_units))
 
-            if np.array_equal(state, new_state):
-                break
+    def train(self, patterns):
+        """
+        Trains the network with the given patterns.
 
-            state = new_state
-            num_iterations += 1
+        Args:
+        - patterns (list): a list of patterns to train the network with
+        """
+        for pattern in patterns:
+            pattern = np.array(pattern)
+            self.weights += np.outer(pattern, pattern)
+        np.fill_diagonal(self.weights, 0)
 
-        return state.tolist(), num_iterations, energy_list
+    def update(self, pattern, async_update=True):
+        """
+        Updates the network with the given pattern.
 
-def compute_hamming(self, pattern1, pattern2):
-    return np.count_nonzero(np.array(pattern1) != np.array(pattern2))
+        Args:
+        - pattern (list): the pattern to update the network with
+        - async_update (bool): whether to use asynchronous or synchronous updating
 
-def add_noise(pattern, p):
-    """Add random noise to a pattern."""
-    noise = np.random.choice([-1, 1], size=pattern.shape, p=[p, 1-p])
-    return np.multiply(pattern, noise)
+        Returns:
+        - the updated pattern as a list
+        """
+        pattern = np.array(pattern)
+        if async_update:
+            indices = np.random.permutation(self.n_units)
+        else:
+            indices = range(self.n_units)
+        
+        for index in indices:
+            activation = np.dot(self.weights[index], pattern)
+            pattern[index] = 1 if activation > self.threshold else 0
+        return pattern.tolist()
 
-# Define patterns
+    def energy(self, pattern):
+        """
+        Calculates the energy of the given pattern.
+
+        Args:
+        - pattern (list): the pattern to calculate the energy of
+
+        Returns:
+        - the energy of the pattern as a float
+        """
+        pattern = np.array(pattern)
+        return -0.5 * np.dot(pattern.T, np.dot(self.weights, pattern))
+
 patterns = [
-    [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
-    [1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0],
-    [1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0],
-    [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
+    # Four binary patterns of 16 bits each.
+    # Pattern 1: row of 8 "on" bits followed by 8 "off" bits.
+    # Pattern 2: two rows of 4 "on" bits followed by 4 "off" bits.
+    # Pattern 3: checkerboard pattern of alternating rows of 4 "on" and 4 "off" bits.
+    # Pattern 4: alternating "on" and "off" bits in each column.
+    [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+    [1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
+    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
 ]
-patterns = np.array(patterns)
-# Create Hopfield network and train it on the patterns
-hopfield = HopfieldNetwork(16)
-hopfield.train(patterns)
 
-# Test the network
-hamming_dists = []
-num_iters_list = []
-energy_list = []
-max_iters = 100
-num_fails = 0
-for p in patterns:
-    for p_change in [0, .1, .2, .3, .4, .5]:
-        for run in range(5):
-            input_pattern = add_noise(p, p_change)
-            output_pattern, num_iterations, energy = hopfield.run(input_pattern, max_iters)
-            num_iters_list.append(num_iterations)
-            energy_list.append(energy)
-            if not np.array_equal(p, output_pattern):
-                num_fails += 1
-            hamming_dist = hopfield.compute_hamming(p, output_pattern)
-            hamming_dists.append(hamming_dist)
+# Create a Hopfield network with 16 units and train it on a set of binary patterns.
+hopfield_network = HopfieldNetwork(16)
+hopfield_network.train(patterns)
 
-# Print summary statistics
-print("Hamming distances:", hamming_dists)
-print("Mean hamming distance:", np.mean(hamming_dists))
-print("Standard deviation of hamming distances:", np.std(hamming_dists))
-print("Number of times network failed to settle:", num_fails)
-print("Number of iterations list:", num_iters_list)
-print("Mean number of iterations:", np.mean(num_iters_list))
-print("Standard deviation of iterations:", np.std(num_iters_list))
-print("Energy list:", energy_list)
+def generate_test_patterns(patterns, probability):
+    """
+    Generate test patterns by flipping bits in the input patterns with a given probability.
 
-#2A)
+    Args:
+        patterns (list): A list of binary patterns.
+        probability (float): The probability of flipping a bit in each pattern.
 
-# Define the size of the patterns
-n_units = 16
+    Returns:
+        list: A list of test patterns with bits flipped according to the given probability.
+    """
+    test_patterns = []
+    for pattern in patterns:
+        test_pattern = [int(not value) if random.random() < probability else value for value in pattern]
+        test_patterns.append(test_pattern)
+    return test_patterns
 
-# Initialize the training patterns as empty arrays
-pattern1 = np.zeros(n_units)
-pattern2 = np.zeros(n_units)
-pattern3 = np.zeros(n_units)
+def hamming_distance(pattern1, pattern2):
+    """
+    Calculates the Hamming distance between two strings of equal length.
 
-# Activate each unit with probability 0.5
-for i in range(n_units):
-    if np.random.rand() > 0.5:
-        pattern1[i] = 1
-    if np.random.rand() > 0.5:
-        pattern2[i] = 1
-    if np.random.rand() > 0.5:
-        pattern3[i] = 1
+    Args:
+        pattern1 (str): The first string.
+        pattern2 (str): The second string.
 
-# Print the generated training patterns
-print("Training pattern 1: ", pattern1)
-print("Training pattern 2: ", pattern2)
-print("Training pattern 3: ", pattern3)
+    Returns:
+        int: The number of positions at which the corresponding symbols are different.
+    """
+    return sum(p1 != p2 for p1, p2 in zip(pattern1, pattern2))
 
-#2B)
+def run_simulation(hopfield_network, patterns, test_patterns, max_iterations=100):
+    """
+    Runs a simulation of a Hopfield network given a set of patterns and test patterns.
 
-class HopfieldNet:
-    def __init__(self, num_units):
-        self.num_units = num_units
-        self.weights = np.zeros((num_units, num_units))
-        
-    def train(self, patterns):
-        # Validate input patterns
-        if not isinstance(patterns, np.ndarray):
-            raise TypeError('Patterns must be a NumPy array.')
-        for pattern in patterns:
-            self.weights += np.outer(pattern, pattern)
-        np.fill_diagonal(self.weights, 0)
-        
-    def recall(self, test_patterns, max_iters=100, threshold=0):
-        hamming_dists = []
-        num_iters_list = []
-        num_fails = 0
-        energy_list = []
-        
-        for test_pattern in test_patterns:
-            state = np.copy(test_pattern)
-            for i in range(max_iters):
-                energy = -0.5 * np.dot(np.dot(state, self.weights), state)
-                energy_list.append(energy)
-                new_state = np.zeros(self.num_units)
-                for j in range(self.num_units):
-                    activation = np.dot(self.weights[j], state)
-                    if activation > threshold:
-                        new_state[j] = 1
-                    elif activation < -threshold:
-                        new_state[j] = -1
-                    else:
-                        new_state[j] = state[j]
-                if np.array_equal(state, new_state):
-                    break
-                state = new_state
-            else:
-                num_fails += 1
-                
-            hamming_dists.append(self.compute_hamming(new_state, test_pattern))
-            num_iters_list.append(i+1)
-        
-        return hamming_dists, num_iters_list, energy_list, num_fails
-    
-    def compute_hamming(self, state1, state2):
-        return np.sum(state1 != state2)
+    Parameters:
+    hopfield_network (HopfieldNetwork): The Hopfield network to simulate.
+    patterns (list): A list of patterns to train the network on.
+    test_patterns (list): A list of patterns to test the network on.
+    max_iterations (int): The maximum number of iterations to run for each test pattern.
 
-# Set the number of units in the patterns
-num_units = 20
+    Returns:
+    list: A list of tuples containing the Hamming distance, number of iterations, and energy for each test pattern.
+    """
+    results = []
 
-# Create three random training patterns
-patterns = np.random.choice([-1, 1], size=(3, num_units), p=[0.5, 0.5])
+    for test_pattern, target_pattern in zip(test_patterns, patterns):
+        pattern = test_pattern.copy()
+        prev_pattern = None
+        iterations = 0
 
-# Create a Hopfield network with the given number of units
-hopfield = HopfieldNet(num_units)
+        while prev_pattern != pattern and iterations < max_iterations:
+            prev_pattern = pattern.copy()
+            pattern = hopfield_network.update(pattern)
+            iterations += 1
 
-# Train the network on the training patterns
-hopfield.train(patterns)
+        hamming_dist = hamming_distance(target_pattern, pattern)
+        energy = hopfield_network.energy(pattern)
+        results.append((hamming_dist, iterations, energy))
 
-# Define the probabilities of changing each unit from 1 to -1 or vice versa
-probs = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
+    return results
 
-# Set the maximum number of iterations for each test
-max_iters = 100
+# A list of six floating-point values representing probabilities.
+probabilities = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
 
-# Set the number of times to run each test for each probability
-num_runs = 5
+# Iterate over a list of probabilities and run a simulation for each probability.
+# The probabilities are used to generate test patterns with varying levels of noise.
+# The simulation is run 5 times for each probability.
+for probability in probabilities:
+    for _ in range(5):
+        test_patterns = generate_test_patterns(patterns, probability)
+        run_simulation(hopfield_network, patterns, test_patterns)
 
-# Initialize lists to store the results
-hamming_dists = []
-num_iters_list = []
-num_fails = []
+def generate_random_patterns(n_patterns, n_units):
+    """
+    Generates a list of random patterns with the specified number of patterns and units.
 
-# Loop over each pattern in the training set
-for p, pattern in enumerate(patterns):
+    Args:
+        n_patterns (int): The number of patterns to generate.
+        n_units (int): The number of units in each pattern.
 
-    # Loop over each probability of changing each unit
-    for q in probs:
+    Returns:
+        A list of n_patterns patterns, each containing n_units units. Each unit is randomly set to 0 or 1.
+    """
+    return [[1 if random.random() < 0.5 else 0 for _ in range(n_units)] for _ in range(n_patterns)]
 
-        # Initialize a list to store the Hamming distances and number of iterations for each run
-        hamming_dists_pq = []
-        num_iters_pq = []
+# Generate 3 random binary patterns of length 16.
+# Set the probability of each bit being flipped to 0.2.
+# Generate 5 test patterns with noise using the random patterns and the given probability.
+# Run a simulation with the Hopfield network using the random patterns and the test patterns.
+random_patterns = generate_random_patterns(3, 16)
 
-        # Run the test multiple times with random noise added each time
-        for r in range(num_runs):
+probability = 0.2
 
-            # Add random noise to the pattern
-            noisy_pattern = add_noise(pattern, q)
+for _ in range(5):
+    test_patterns = generate_test_patterns(random_patterns, probability)
+    run_simulation(hopfield_network, random_patterns, test_patterns)
 
-            # Run the network with the noisy pattern and record the number of iterations
-            output_pattern, num_iters, energy_list = hopfield.run(noisy_pattern, max_iters=max_iters)
+# Add two more random patterns and test
+random_patterns += generate_random_patterns(2, 16)
 
-            # Compute the Hamming distance between the output pattern and the original pattern
-            hamming_dist = compute_hamming(output_pattern, pattern)
+for _ in range(5):
+    test_patterns = generate_test_patterns(random_patterns, probability)
+    run_simulation(hopfield_network, random_patterns, test_patterns)
 
-            # Append the Hamming distance and number of iterations to the lists
-            hamming_dists_pq.append(hamming_dist)
-            num_iters_pq.append(num_iters)
+base_pattern = [1] * 8 + [0] * 8
 
-        # Compute the mean Hamming distance and number of iterations for this pattern and probability
-        mean_hamming_dist_pq = np.mean(hamming_dists_pq)
-        mean_num_iters_pq = np.mean(num_iters_pq)
+def generate_related_patterns(base_pattern, n_patterns, probability):
+    """
+    Generates a list of related patterns based on a given base pattern.
 
-        # Append the mean Hamming distance and number of iterations to the overall lists
-        hamming_dists.append(mean_hamming_dist_pq)
-        num_iters_list.append(mean_num_iters_pq)
+    Args:
+        base_pattern (str): The base pattern to generate related patterns from.
+        n_patterns (int): The number of related patterns to generate.
+        probability (float): The probability of each character in the related patterns being different from the base pattern.
 
-        # Count the number of times the network failed to settle
-        num_fails_pq = hamming_dists_pq.count(num_units)  # If Hamming distance is equal to the number of units, network failed
-        num_fails.append(num_fails_pq)
+    Returns:
+        list: A list of related patterns generated from the base pattern.
+    """
+    return [generate_test_patterns([base_pattern], probability)[0] for _ in range(n_patterns)]
 
-        # Print the results for this pattern and probability
-        print(f"Pattern {p+1}, probability {q}:")
+related_patterns = generate_related_patterns(base_pattern, 6, 0.125)
 
-patterns = np.random.randint(2, size=(3, 100))
-patterns[patterns == 0] = -1
+probability = 0
 
+for _ in range(5):
+    test_patterns = generate_test_patterns(related_patterns, probability)
+    run_simulation(hopfield_network, related_patterns, test_patterns)
 
-q_list = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
-num_runs = 5
-max_iters = 1000
+patterns = random_patterns 
 
-results = np.zeros((len(q_list), num_runs, 2))
+hopfield_network = HopfieldNetwork(16)
+hopfield_network.train(patterns)
 
-for i, q in enumerate(q_list):
-    for j in range(num_runs):
-        noisy_patterns = add_noise(patterns, q)
-        hopfield = HopfieldNetwork()
-        hopfield.train(patterns)
-        num_iters_list, num_iterations, hamming_dists, energy_list, num_fails = hopfield.run_patterns(
-            noisy_patterns, max_iters)
-        results[i, j, 0] = np.mean(hamming_dists)
-        results[i, j, 1] = np.mean(num_iters_list)
+def run_simulation_async(hopfield_network, patterns, test_patterns, async_update=True, max_iterations=100):
+    """
+    Runs an asynchronous simulation on a Hopfield network for a given set of test patterns.
 
-        print(f"Q: {q}, run: {j}, Hamming Distance: {results[i, j, 0]}, Iterations: {results[i, j, 1]}, Failed: {num_fails}")
+    Args:
+        hopfield_network (HopfieldNetwork): The Hopfield network to simulate.
+        patterns (List[np.ndarray]): The patterns that the network has been trained on.
+        test_patterns (List[np.ndarray]): The patterns to test the network on.
+        async_update (bool, optional): Whether to use asynchronous or synchronous updates. Defaults to True.
+        max_iterations (int, optional): The maximum number of iterations to run for each test pattern. Defaults to 100.
 
+    Returns:
+        List[Tuple[int, int, float]]: A list of tuples containing the Hamming distance, number of iterations, and energy for each test pattern.
+    """
+    results = []
 
-patterns2 = np.random.randint(2, size=(2, 100))
-patterns2[patterns2 == 0] = -1
+    for test_pattern, target_pattern in zip(test_patterns, patterns):
+        pattern = test_pattern.copy()
+        prev_pattern = None
+        iterations = 0
 
-q = 0.2
-num_runs = 5
+        while prev_pattern != pattern and iterations < max_iterations:
+            prev_pattern = pattern.copy()
+            pattern = hopfield_network.update(pattern, async_update=async_update)
+            iterations += 1
 
-for i in range(3, 5):
-    patterns2 = np.concatenate((patterns2, np.random.randint(2, size=(1, 100))), axis=0)
-    patterns2[patterns2 == 0] = -1
-    noisy_patterns = add_noise(patterns2, q)
-    hopfield = HopfieldNetwork()
-    hopfield.train(patterns2)
-    num_iters_list, num_iterations, hamming_dists, energy_list, num_fails = hopfield.run_patterns(noisy_patterns, max_iters)
-    mean_hamming_dist = np.mean(hamming_dists)
-    mean_num_iters = np.mean(num_iters_list)
-    print(f"Patterns: {i+1}, Hamming Distance: {mean_hamming_dist}, Iterations: {mean_num_iters}, Failed: {num_fails}")
+        hamming_dist = hamming_distance(target_pattern, pattern)
+        energy = hopfield_network.energy(pattern)
+        results.append((hamming_dist, iterations, energy))
 
-#3A
+    return results
 
-# create the base pattern
-base_pattern = np.concatenate((np.ones((1,8)), np.zeros((1,8))), axis=1)
+probability = 0.2
 
-# create the training patterns
-training_patterns = np.zeros((6,16))
-for i in range(6):
-    flip_indices = np.random.choice(16, size=2, replace=False, p=[0.125]*2)
-    training_pattern = np.copy(base_pattern)
-    training_pattern[:,flip_indices] = 1 - training_pattern[:,flip_indices]
-    training_patterns[i,:] = training_pattern
+for _ in range(5):
+    test_patterns = generate_test_patterns(patterns, probability)
+    run_simulation_async(hopfield_network, patterns, test_patterns, async_update=True)  # Asynchronous updating
+    run_simulation_async(hopfield_network, patterns, test_patterns, async_update=False)  # Synchronous updating
 
-#3B
-# Define the base pattern
-base_pattern = np.concatenate((np.ones(8), np.zeros(8)))
+def print_results(results):
+    """
+    Prints the results of a simulated annealing algorithm run.
 
-# Define the training patterns
-training_patterns = []
-for i in range(6):
-    tp = np.copy(base_pattern)
-    flip_indices = np.random.choice(16, 2, replace=False) # flip 2 indices with probability 0.125
-    tp[flip_indices] = 1 - tp[flip_indices]
-    training_patterns.append(tp)
+    Args:
+        results (list): A list of tuples containing the Hamming distance, number of iterations, and energy for each run.
 
-# Create the network
-network = HopfieldNet(16)
+    Returns:
+        None
+    """
+    print("Hamming Distance | Iterations | Energy")
+    for hamming_dist, iterations, energy in results:
+        print(f"{hamming_dist:^15} | {iterations:^10} | {energy}")
 
-# Train the network on the training patterns
-network.train(training_patterns)
+# Part 1
+print("Part 1 Results:")
+for probability in probabilities:
+    for _ in range(5):
+        test_patterns = generate_test_patterns(patterns, probability)
+        results = run_simulation(hopfield_network, patterns, test_patterns)
+        print_results(results)
 
-# Test the network on the original training patterns
-for tp in training_patterns:
-    noisy_tp = add_noise(tp, 0)
-    result, energy, num_iters = network.run_with_energy(noisy_tp, max_iters=100, threshold=1e-10)
-    print("Original Pattern:\n", tp.reshape(4, 4))
-    print("Noisy Pattern:\n", noisy_tp.reshape(4, 4))
-    print("Result Pattern:\n", result.reshape(4, 4))
-    print("Energy:", energy)
-    print("Number of iterations:", num_iters)
-    print("Hamming distance:", hamming_dist(result, tp))
-    print("---------------------------")
+# Part 2
+print("\nPart 2 Results:")
+probability = 0.2
+for _ in range(5):
+    test_patterns = generate_test_patterns(random_patterns, probability)
+    results = run_simulation(hopfield_network, random_patterns, test_patterns)
+    print_results(results)
 
-"""When testing the network with the original Training patterns, it usually settles into one of the six stored patterns, 
-even when there is noise in the input. This is because the Hopfield network is designed to converge to stored patterns that are closest 
-to the input pattern in terms of the Hamming distance.
-This phenomenon of the network settling into a stored pattern even when there is noise in the input can correspond to a form of pattern 
-completion or recognition in a psychological sense. This is similar to how the human brain can recognize partially obscured or noisy 
-stimuli and still identify them as familiar objects or patterns."""
+# Part 3
+print("\nPart 3 Results:")
+probability = 0
+for _ in range(5):
+    test_patterns = generate_test_patterns(related_patterns, probability)
+    results = run_simulation(hopfield_network, related_patterns, test_patterns)
+    print_results(results)
 
-#4A
-
-# Define the training patterns
-p1 = np.array([1, 1, -1, -1])
-p2 = np.array([1, -1, 1, -1])
-p3 = np.array([-1, -1, 1, 1])
-
-# Create an instance of the Hopfield class and train the network
-hopfield = HopfieldNet()
-hopfield.train([p1, p2, p3])
-
-#4B
-#syncronous update
-class HopfieldNetwork:
-    def __init__(self, num_nodes):
-        self.num_nodes = num_nodes
-        self.weights = np.zeros((num_nodes, num_nodes))
-        
-    def train(self, patterns):
-        # Validate input patterns
-        if not isinstance(patterns, np.ndarray):
-            raise TypeError('Patterns must be a NumPy array.')
-        for pattern in patterns:
-            self.weights += np.outer(pattern, pattern)
-        self.weights /= len(patterns)
-        np.fill_diagonal(self.weights, 0)
-        
-    def update(self, state):
-        activations = np.dot(self.weights, state)
-        new_state = np.where(activations > 0, 1, -1)
-        return new_state
-
-#asynchronous update
-class HopfieldNetwork:
-    def __init__(self, num_nodes):
-        self.num_nodes = num_nodes
-        self.weights = np.zeros((num_nodes, num_nodes))
-        
-    def train(self, patterns):
-        # Validate input patterns
-        if not isinstance(patterns, np.ndarray):
-            raise TypeError('Patterns must be a NumPy array.')
-        for pattern in patterns:
-            self.weights += np.outer(pattern, pattern)
-        self.weights /= len(patterns)
-        np.fill_diagonal(self.weights, 0)
-        
-    def update(self, state, num_updates):
-        indices = np.random.choice(self.num_nodes, num_updates, replace=False)
-        activations = np.dot(self.weights[indices, :], state)
-        new_state = np.copy(state)
-        new_state[indices] = np.where(activations > 0, 1, -1)
-        return new_state
+# Part 4
+print("\nPart 4 Results:")
+probability = 0.2
+for _ in range(5):
+    test_patterns = generate_test_patterns(patterns, probability)
+    print("Asynchronous updating:")
+    results = run_simulation_async(hopfield_network, patterns, test_patterns, async_update=True)
+    print_results(results)
+    print("Synchronous updating:")
+    results = run_simulation_async(hopfield_network, patterns, test_patterns, async_update=False)
+    print_results(results) 
