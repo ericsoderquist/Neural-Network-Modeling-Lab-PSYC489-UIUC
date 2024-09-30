@@ -1,4 +1,3 @@
-
 # Neural Network Modeling Lab (PSYC 489) - University of Illinois at Urbana-Champaign
 
 ## Scholarly Introduction
